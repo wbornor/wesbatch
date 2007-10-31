@@ -1,0 +1,24 @@
+#! /bin/bash
+
+EMAIL=wbornor@splaysh.com
+IPIDENPAGE=http://www.splaysh.com/myip.php
+ROUTERIDENPAGE=~/.routeriden
+
+if [ -f $ROUTERIDENPAGE ]; then
+	newip=$(wget -qO - $IPIDENPAGE)
+
+	if [ -z $newip ]; then
+		#IPIDENPAGE down, wait till it returns
+		exit
+	fi
+
+	if [ -n "$(echo $newip | diff --brief $ROUTERIDENPAGE - | grep differ)" ]; then
+		oldip=$(cat $ROUTERIDENPAGE)
+		echo -e "Message from $LOGNAME@$HOSTNAME.\n\nRouter IP address changed.\nold/new: $oldip/$newip" | mail -s "Router IP address changed" $EMAIL
+		echo $newip > $ROUTERIDENPAGE
+	fi
+else
+		#echo -e "$ROUTERIDENPAGE file does not exist. Creating..."
+		wget -qO $ROUTERIDENPAGE $IPIDENPAGE
+fi
+

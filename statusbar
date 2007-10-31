@@ -1,0 +1,13 @@
+#! /bin/bash
+
+let count=20;
+
+echo -n "=>"
+
+while [ $count -gt 0 ]; do
+	echo -ne "\b==>"
+	let count=count-1;
+	sleep .5 
+done
+
+echo -e "\n"

@@ -1,0 +1,9 @@
+#! /bin/bash
+
+while [ -n "$1" ]; do
+	jpegtopnm "$1" > temp
+	pnmscale -xysize 640 480 temp | pnmtojpeg > "$1"
+	pnmscale -xysize 184 138 temp | pnmtojpeg > "t_$1"
+	rm temp
+	shift
+done
