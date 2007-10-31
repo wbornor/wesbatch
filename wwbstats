@@ -1,0 +1,27 @@
+#!/opt/python/bin/python
+import sys, os
+
+if __name__ == '__main__':
+	f = sys.stdin	
+	sum = 0
+	count = 0
+	nums = []
+
+	for line in f.readlines():
+		if line.strip().isdigit():
+			num = float(int(line.strip()))
+			nums.append(num)
+			sum += num
+			count += 1
+
+
+	if nums:
+		maximum = max(nums)
+		minimum = min(nums)
+		range = maximum - minimum
+
+		print 'sum:', sum
+		print 'avg:', sum/count
+		print 'max:', maximum
+		print 'min:', minimum
+		print 'rng:', range

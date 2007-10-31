@@ -1,0 +1,13 @@
+#!/opt/python/bin/python
+import sys
+
+if __name__ == "__main__":
+
+	if len(sys.argv) < 3:
+		print "wwbcat - concatenates a string to each file in the list of arguments"
+		print "usage: wwbcat <string> <filename1> [ <filename2> <filename2> ... ]"
+		sys.exit(1)
+
+	word = "%s%s" % (sys.argv[1], '\n')
+
+	map(lambda x: open(x, 'a').write(word), sys.argv[2:])

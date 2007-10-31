@@ -1,0 +1,29 @@
+#!/opt/python/bin/python
+import sys, shutil, os
+
+if __name__ == "__main__":
+
+	if len(sys.argv) < 3:
+		print "wwbprepend - concatenates a string to the beginning of each file in the list of arguments"
+		print "usage: wwbprepend <string> <filename1> [ <filename2> <filename2> ... ]"
+		sys.exit(1)
+
+	word = "%s%s" % (sys.argv[1], '\n')
+
+	for filename in sys.argv[2:]:
+		temp = ".temp_%s" % filename
+		shutil.copy(filename, temp)
+		f = open(filename, 'w')
+		t = open(temp, 'r')
+
+		f.write(word)
+		while 1:
+			line = t.readline()
+			if not line:
+				break
+
+			f.write(line)
+			
+		f.close()
+		t.close()
+		os.remove(temp)

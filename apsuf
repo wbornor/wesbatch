@@ -1,0 +1,14 @@
+#!/opt/python/bin/python
+import sys
+import os
+
+if __name__ == "__main__":
+
+	if len(sys.argv) < 3:
+		print "apsuf - appends a suffix to each filename in the list of arguments"
+		print "usage: apsuf <suffix> <filename1> [ <filename2> <filename2> ... ]"
+		sys.exit(1)
+
+	suffix = sys.argv[1]
+
+	map(lambda x: os.rename(x, x+suffix), sys.argv[2:])
