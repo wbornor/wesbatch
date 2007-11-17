@@ -1,0 +1,15 @@
+. /mr/setmr
+. /mr/scripts/simple_report/simprpt.env
+
+export JOBNAME = "MRXXXXXX"
+export RPTNAME = "Ledger Submission Control Report"
+export RPTHEADER = "JE,MONTH-3,MONTH-2,MONTH-1,MONTH-0,AMOUNT CHANGE OVER LAST MONTH,% CHANGE OVER LAST MONTH,% CHANGE OVER AVG"
+export SQLDIR = "/mr/scripts/MONTHEND/controlreports/"
+export SQLFILE = "ledgerfilecontrol.sql" 
+export DL = "CONS/INDCHSFinancialMonthendTeam@ge.com" 
+
+$SCRDIR/simprpt
+if[ $? -ne 0 ]; then
+	echo "simprpt failed"
+	exit $?
+fi 

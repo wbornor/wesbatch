@@ -1,0 +1,41 @@
+. /mr/setmr
+. /mr/scripts/simple_report/simprpt.env
+
+
+RUNSTEP5
+if[ $rstart ]; then
+{
+	runsqlplus @$SQL $RUNDATE $SMPWORKDIR/$JOBNAME.OUT1
+	assert_return("SPOOL FAILED")
+	
+	echo $RPTHEADER > $SMPWORKDIR/$JOBNAME.OUT2
+	cat $SMPWORKDIR/$JOBNAME.OUT1 >> $SMPWORKDIR/$JOBNAME.OUT2
+	
+	DD_IN=$SMPWORKDIR/$JOBNAME.OUT2 
+	rkput $SMPWORKDIR/$JOBNAME.OUT 6 #TODAY
+	assert_return("RKPUT FAILED")
+	
+	rm -f $SMPWORKDIR/$JOBNAME.OUT*
+	assert_return("REMOVAL OF WORKING FILES FAILED")
+}
+
+RUNSTEP10
+if[ $rstart ]; then
+{
+	DD_OUT=$SMPWORKDIR/$JOBNAME.OUT
+	rkget $RUNDATE
+	
+	if[ $DL ]; then
+		uuencode $SMPWORKDIR/$JOBNAME.OUT | mailx -s "$RPTNAME - $RUNDATE"
+	fi
+	
+	rm -f $SMPWORKDIR/$JOBNAME.OUT*
+	assert_return("REMOVAL OF WORKING FILES FAILED")
+}
+
+ 
+RUNSTEP99
+if[ $rstart ]; then
+{
+	set RSTART info
+}
